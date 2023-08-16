@@ -3,7 +3,7 @@ from typing import Any, List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from api.deps import get_db
-from schemas.usuario import CriaUsuario, RetornoUsuario
+from schemas.usuario import AtualizaUsuario, CriaUsuario, RetornoUsuario
 from crud.usuario import usuario as crud_usuario
 
 router = APIRouter()
@@ -22,3 +22,63 @@ def cria_usuario(*, db: Session = Depends(get_db), novo_usuario: CriaUsuario) ->
             detail="Erro ao criar usuario",
         )
     return usuario
+
+
+@router.get("", response_model=List[RetornoUsuario])
+def listar_usuarios(*, db: Session = Depends(get_db)) -> Any:
+    """
+    Lista todos os usuários.
+    """
+
+    usuario = crud_usuario.busca_todos_usuarios(db)
+    if not usuario:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Nenhum usuario encontrado",
+        )
+    return usuario
+
+
+@router.delete("/{id_usuario}", response_model=RetornoUsuario)
+def remove_usuario(*, db: Session = Depends(get_db), id_usuario: int) -> Any:
+    """
+    Remove um usuário pelo id.
+    """
+    try:
+        usuario = crud_usuario.remove_usuario(db, id_usuario=id_usuario)
+        return usuario
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Usuário não encontrado",
+        )
+
+
+@router.get("/{id_usuario}", response_model=RetornoUsuario)
+def busca_usuario_por_id(*, db: Session = Depends(get_db), id_usuario: int) -> Any:
+    """
+    Busca usuário pelo id.
+    """
+    usuario = crud_usuario.busca_usuario_por_id(db, id_usuario=id_usuario)
+    if not usuario:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Usuário não encontrado",
+        )
+    return usuario
+
+
+@router.patch("", response_model=RetornoUsuario)
+def atualiza_usuario(*, db: Session = Depends(get_db), usuarioAtualizado: AtualizaUsuario) -> Any:
+    """
+    Atualiza um usuário.
+    """
+    try:
+        usuario = crud_usuario.atualiza_usuario(
+            db, usuarioAtualizado=usuarioAtualizado)
+        return usuario
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Usuário não encontrado",
+        )

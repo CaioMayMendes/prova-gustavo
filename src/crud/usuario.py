@@ -18,15 +18,20 @@ class CRUDUsuario():
             raise Exception("Usuário não encontrado")
         db.delete(usuario)
         db.commit()
-        return usuario
 
     def atualiza_usuario(self, db: Session, *, usuarioAtualizado: AtualizaUsuario):
         usuario = db.query(Usuario).filter(
             Usuario.id_usuario == usuarioAtualizado.id_usuario).first()
         if not usuario:
             raise Exception("Usuário não encontrado")
-        usuario.nome = usuarioAtualizado.nome
-        usuario.email = usuarioAtualizado.email
+
+        if usuarioAtualizado.nome:
+            usuario.nome = usuarioAtualizado.nome
+        if usuarioAtualizado.email:
+            usuario.email = usuarioAtualizado.email
+        if usuarioAtualizado.senha:
+            usuario.senha = usuarioAtualizado.senha
+
         db.add(usuario)
         db.commit()
         return usuario

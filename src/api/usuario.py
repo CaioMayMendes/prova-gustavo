@@ -39,14 +39,14 @@ def listar_usuarios(*, db: Session = Depends(get_db)) -> Any:
     return usuario
 
 
-@router.delete("/{id_usuario}", response_model=RetornoUsuario)
+@router.delete("/{id_usuario}", response_model=str)
 def remove_usuario(*, db: Session = Depends(get_db), id_usuario: int) -> Any:
     """
     Remove um usuário pelo id.
     """
     try:
-        usuario = crud_usuario.remove_usuario(db, id_usuario=id_usuario)
-        return usuario
+        crud_usuario.remove_usuario(db, id_usuario=id_usuario)
+        return {"message": f"Usuário com o ID = {id_usuario} deletado com sucesso."}
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -74,9 +74,7 @@ def atualiza_usuario(*, db: Session = Depends(get_db), usuarioAtualizado: Atuali
     Atualiza um usuário.
     """
     try:
-        usuario = crud_usuario.atualiza_usuario(
-            db, usuarioAtualizado=usuarioAtualizado)
-        return usuario
+        return crud_usuario.atualiza_usuario(db, usuarioAtualizado=usuarioAtualizado)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

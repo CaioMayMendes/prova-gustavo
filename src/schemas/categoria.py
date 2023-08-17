@@ -1,8 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel
 
-from schemas.usuario import RetornoUsuario
-
 
 class CategoriaBase(BaseModel):
     id_categoria: Optional[int]

@@ -58,6 +58,13 @@ class CRUDEndereco():
         db.delete(endereco)
         db.commit()
 
+    def busca_endereco_por_id(self, db: Session, *, id_endereco: int):
+        endereco = db.query(Endereco).filter(
+            Endereco.id_endereco == id_endereco).first()
+        if not endereco:
+            raise Exception("Endereço não encontrado")
+        return endereco
+
     def busca_endereco_por_id_usuario(self, db: Session, *, id_usuario: int):
         usuario = db.query(Usuario).filter(
             Usuario.id_usuario == id_usuario).first()

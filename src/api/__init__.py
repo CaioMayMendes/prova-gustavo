@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from api import usuario, endereco, categoria, produto
+from api import usuario, endereco, categoria, produto, pedido
 
 api_router = APIRouter()
 
@@ -10,3 +10,4 @@ api_router.include_router(
 api_router.include_router(
     categoria.router, prefix="/categoria", tags=["categoria"])
 api_router.include_router(produto.router, prefix="/produto", tags=["produto"])
+api_router.include_router(pedido.router, prefix="/pedido", tags=["pedido"])

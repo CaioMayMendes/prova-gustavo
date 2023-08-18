@@ -43,6 +43,7 @@ class CRUDProduto():
             produto.descricao = produto_atualizado.descricao
         if produto_atualizado.preco:
             produto.preco = produto_atualizado.preco
+        db.add(produto)
         db.commit()
         db.refresh(produto)
         return produto

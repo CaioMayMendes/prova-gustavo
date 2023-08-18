@@ -67,7 +67,7 @@ def remove_produto(*, db: Session = Depends(get_db), id_produto: int) -> Any:
 
 
 @router.patch("", response_model=RetornoProduto)
-def atualiza_categoria(*, db: Session = Depends(get_db), produto_atualizado: AtualizaProduto) -> Any:
+def atualiza_produto(*, db: Session = Depends(get_db), produto_atualizado: AtualizaProduto) -> Any:
     """
     Atualiza produto.
     """

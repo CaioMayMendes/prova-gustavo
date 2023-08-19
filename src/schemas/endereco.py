@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class Endereco(BaseModel):
     id_endereco: Optional[int]
-    id_usario: Optional[int]
+    id_usuario: Optional[int]
     descricao: Optional[str]
     cep: Optional[str]
     rua: Optional[str]
@@ -15,7 +15,7 @@ class Endereco(BaseModel):
     estado: Optional[str]
 
 class CriaEndereco(BaseModel):
-    id_usario: int
+    id_usuario: int
     descricao: str
     cep: str
     rua: str

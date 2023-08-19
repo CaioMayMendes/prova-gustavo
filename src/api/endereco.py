@@ -15,7 +15,7 @@ def cria_endereco(*, db: Session = Depends(get_db), novo_endereco: CriaEndereco)
     Cria um novo endereço.
     """
 
-    endereco = crud_endereco.cria_novo_endereco(db, novo_endereco=novo_endereco)
+    endereco = crud_endereco.cria_endereco(db, novo_endereco=novo_endereco)
     if not endereco:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -23,7 +23,7 @@ def cria_endereco(*, db: Session = Depends(get_db), novo_endereco: CriaEndereco)
         )
     return endereco
 
-@router.get("", response_model=RetornaEndereco)
+@router.get("", response_model=list[RetornaEndereco])
 def retorna_enderecos(db: Session = Depends(get_db)) -> Any:
     """
     Retorna todos os endereços.
@@ -35,4 +35,10 @@ def retorna_endereco_by_id(id_endereco, db: Session = Depends(get_db)) -> Any:
     """
     Retorna endereço por ID.
     """
-    return crud_endereco.retorna_endereco_by_id(db=db, id_endereco=id_endereco)
+    endereco = crud_endereco.retorna_endereco_by_id(db=db, id_endereco=id_endereco)
+    if not endereco:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Usuario com ID: {id_endereco} não encontrado.",
+        )
+    return endereco

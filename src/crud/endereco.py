@@ -3,8 +3,8 @@ from models.endereco import Endereco
 from schemas.endereco import CriaEndereco, AtualizaEndereco
 
 class CRUDEndereco():
-    def cria_novo_usuario(self, db: Session, *, novo_endereco: CriaEndereco):
-        endereco = Endereco(id_usuario = novo_endereco.id_usario,
+    def cria_endereco(self, db: Session, *, novo_endereco: CriaEndereco):
+        endereco = Endereco(id_usuario = novo_endereco.id_usuario,
                             descricao = novo_endereco.descricao,
                             cep = novo_endereco.cep,
                             rua = novo_endereco.rua,

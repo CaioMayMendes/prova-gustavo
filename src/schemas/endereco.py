@@ -27,3 +27,6 @@ class CriaEndereco(BaseModel):
 class RetornaEndereco(Endereco):
     class Config:
         orm_mode = True
+
+class AtualizaEndereco(Endereco):
+    pass

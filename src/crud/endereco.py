@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from models.endereco import Endereco
-from schemas.endereco import CriaEndereco, RetornaEndereco
+from schemas.endereco import CriaEndereco, AtualizaEndereco
 
 class CRUDEndereco():
     def cria_novo_usuario(self, db: Session, *, novo_endereco: CriaEndereco):
@@ -16,8 +16,14 @@ class CRUDEndereco():
         db.commit()
         db.refresh(endereco)
         return endereco
+    def retorna_enderecos(self, db: Session):
+        return db.query(Endereco).all()
     def retorna_endereco_by_id(self, db: Session, *, id_endereco: int ):
         return db.query(Endereco).filter(Endereco.id_endereco == id_endereco).first()
+    def atualiza_endereco_by_id(self, db: Session, *, id_endereco:int, endereco_atualizado: AtualizaEndereco):
+        endereco = db.query(Endereco).filter(Endereco.id_endereco == id_endereco).first()
+        if endereco:
+            endereco.descricao = endereco_atualizado.descricao
     pass
 
 endereco = CRUDEndereco()

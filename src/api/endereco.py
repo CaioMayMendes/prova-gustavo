@@ -23,9 +23,16 @@ def cria_endereco(*, db: Session = Depends(get_db), novo_endereco: CriaEndereco)
         )
     return endereco
 
-@router.get("/{id_endereco}", response_model=RetornaEndereco)
-def retorna_usuario(id_endereco, db: Session = Depends(get_db)) -> Any:
+@router.get("", response_model=RetornaEndereco)
+def retorna_enderecos(db: Session = Depends(get_db)) -> Any:
     """
-    Retorna endereco por ID.
+    Retorna todos os endereços.
+    """
+    return crud_endereco.retorna_enderecos(db=db)
+
+@router.get("/id={id_endereco}", response_model=RetornaEndereco)
+def retorna_endereco_by_id(id_endereco, db: Session = Depends(get_db)) -> Any:
+    """
+    Retorna endereço por ID.
     """
     return crud_endereco.retorna_endereco_by_id(db=db, id_endereco=id_endereco)

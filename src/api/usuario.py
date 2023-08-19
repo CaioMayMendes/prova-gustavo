@@ -36,7 +36,13 @@ def retorna_usuario_by_id(id_usuario, db: Session = Depends(get_db)) -> Any:
     """
     Retorna usuario por ID.
     """
-    return crud_usuario.retorna_usuario_by_id(db=db, id_usuario=id_usuario)
+    usuario = crud_usuario.retorna_usuario_by_id(db=db, id_usuario=id_usuario)
+    if not usuario:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Usuario com ID: {id_usuario} não encontrado.",
+        )
+    return usuario
 
 @router.patch("/id={id_usuario}", response_model=RetornaUsuarioPublico)
 def atualiza_usuario_by_id(id_usuario, *, db: Session = Depends(get_db), atualiza_usuario: AtualizaUsuario) -> Any:

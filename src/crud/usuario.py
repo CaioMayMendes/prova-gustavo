@@ -28,6 +28,8 @@ class CRUDUsuario():
             db.delete(usuario)
             db.commit()
             return usuario
+        else:
+            return None
     pass
 
 usuario = CRUDUsuario()

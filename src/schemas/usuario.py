@@ -1,7 +1,7 @@
 import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class Usuario(BaseModel):
     id_usuario: Optional[int]
@@ -11,9 +11,20 @@ class Usuario(BaseModel):
 
 class CriaUsuario(BaseModel):
     nome: str
-    email: str
+    email: EmailStr
     senha: str
 
 class RetornoUsuario(Usuario):
     class Config:
         orm_mode = True
+
+class RetornaUsuarioPublico(BaseModel):
+    id_usuario: Optional[int]
+    nome: Optional[str]
+    email: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+class AtualizaUsuario(Usuario):
+    pass
